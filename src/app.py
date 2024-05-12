@@ -1,12 +1,18 @@
 from flask import Flask, request, jsonify
+from remla2024_team9_lib_ml import tokenize_url  # Ensure the package is correctly named
 
 app = Flask(__name__)
 
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
-    # Dummy response, replace with actual model prediction later
-    response = {"status": "received", "data": data}
+    if 'url' in data:
+        # Tokenize the URL
+        tokenized_input = tokenize_url(data['url'])
+        # Dummy response for now, replace with actual model prediction logic
+        response = {"status": "received", "tokenized": tokenized_input}
+    else:
+        response = {"error": "URL not provided"}
     return jsonify(response)
 
 if __name__ == "__main__":
