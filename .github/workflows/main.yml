@@ -17,7 +17,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.SAMUEL_PAT }}
+          password: ${{ secrets.GHCR_LOGIN }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -25,4 +25,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/samuelribaric/model-service:0.1.0
+          tags: ghcr.io/remla2024-team9/model-service:0.1.0
