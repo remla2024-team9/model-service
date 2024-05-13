@@ -14,19 +14,20 @@ COPY pyproject.toml poetry.lock* /app/
 RUN poetry config virtualenvs.create false \
     && poetry install --no-dev --no-interaction --no-ansi
 
-# Copy the Flask application files into the container at /app
-COPY . /app
+# Copy the entire src directory into the container at /app/src
+COPY src/ /app/src
 
-# Copy your model and tokenizer into the container
-COPY models/best_model.keras /app/models/
-COPY models/tokenizer.pkl /app/models/
+# Set the working directory to /app/src for running the Python scripts
+WORKDIR /app/src
+
+# Run the downloader to set up the models and tokenizer
+RUN poetry run python downloader.py
 
 # Set the Flask application variable
 ENV FLASK_APP=app.py
-ENV FLASK_ENV=development
 
 # Expose the port the app runs on
 EXPOSE 5000
 
 # Command to run the app
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+CMD ["poetry", "run", "python", "app.py"]

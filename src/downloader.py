@@ -6,10 +6,8 @@ import os
 import requests
 
 # Constants for URL downloads
-URL_MODEL = "https://www.dropbox.com/scl/fi/uzfys196rsd0axqx3o3om/model.keras"
-"?rlkey=obet9rdk3x6kfkfnmghvft33h&st=bur0qvl7&dl=0"
-URL_TOKENIZER = "https://www.dropbox.com/scl/fi/agkgy9nnwrs5kclnvz9ld/tokenizer.pkl"
-"?rlkey=dczufz4fv7d0dyg6hlz3mjqyg&st=wy13pwe7&dl=0"
+URL_MODEL = "https://www.dropbox.com/scl/fi/uzfys196rsd0axqx3o3om/model.keras?rlkey=obet9rdk3x6kfkfnmghvft33h&st=bur0qvl7&dl=1"
+URL_TOKENIZER = "https://www.dropbox.com/scl/fi/agkgy9nnwrs5kclnvz9ld/tokenizer.pkl?rlkey=dczufz4fv7d0dyg6hlz3mjqyg&st=wy13pwe7&dl=1"
 
 def download_file(url, local_filename):
     """Downloads a file from a URL and saves it locally."""
