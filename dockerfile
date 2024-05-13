@@ -12,7 +12,7 @@ COPY pyproject.toml poetry.lock* /app/
 
 # Install dependencies using Poetry
 RUN poetry config virtualenvs.create false \
-    && poetry install 
+    && poetry install --no-dev --no-interaction --no-ansi
 
 # Copy the entire src directory into the container at /app/src
 COPY src/ /app/src
@@ -21,7 +21,7 @@ COPY src/ /app/src
 WORKDIR /app/src
 
 # Run the downloader to set up the models and tokenizer
-RUN python downloader.py
+RUN poetry run python downloader.py
 
 # Set the Flask application variable
 ENV FLASK_APP=app.py
@@ -30,4 +30,4 @@ ENV FLASK_APP=app.py
 EXPOSE 5000
 
 # Command to run the app
-CMD ["python", "app.py"]
+CMD ["poetry", "run", "python", "app.py"]
