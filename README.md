@@ -18,33 +18,33 @@ Before setting up the application, ensure that Poetry is installed on your syste
 
 1. **Clone the Repository**
 
-'git clone git@github.com:remla2024-team9/model-service.git'
+`git clone git@github.com:remla2024-team9/model-service.git`
 
 - Change working directory to this repository
 
 2. **Install Dependencies**
 Run the following commands to install the necessary dependencies:
 
-'poetry install'
+`poetry install`
 
 
 3. **Activate the Virtual Environment**
 To activate the Poetry-created virtual environment, use:
 
-'poetry shell'
+`poetry shell`
 
 
 4. **Download Required Files**
 Execute the `downloader.py` to download the necessary model and tokenizer:
 
-'python src/downloader.py'
+`python src/downloader.py`
 
 
 ### Running the Application
 
 After completing the setup, start the Flask application by running:
 
-'python src/app.py'
+`python src/app.py`
 
 The application will start running on `http://localhost:5000`. You can use tools like Postman or curl to send POST requests to `http://localhost:5000/predict` with a JSON body containing a URL for prediction.
 
