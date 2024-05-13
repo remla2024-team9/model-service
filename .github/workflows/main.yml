@@ -3,7 +3,7 @@ name: Build and Release Docker Image
 on:
   push:
     tags:
-      - 'v*'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build:
@@ -13,11 +13,20 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_LOGIN }}
+        run: |
+          echo "${{ secrets.GHCR_LOGIN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+      - name: Parse version info from tag
+        run: |
+          VERSION=${GITHUB_REF:10}
+          MAJOR=$(echo "$VERSION" | cut -d. -f1)
+          MINOR=$(echo "$VERSION" | cut -d. -f2)
+          PATCH=$(echo "$VERSION" | cut -d. -f3)
+          echo "version=$VERSION" >> $GITHUB_ENV
+          echo "version_major=$MAJOR" >> $GITHUB_ENV
+          echo "version_minor=$MINOR" >> $GITHUB_ENV
+          echo "version_patch=$PATCH" >> $GITHUB_ENV
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -25,4 +34,8 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/remla2024-team9/model-service:0.1.0
+          tags: |
+            ghcr.io/remla2024-team9/model-service:${{ env.version }}
+            ghcr.io/remla2024-team9/model-service:${{ env.version_major }}.${{ env.version_minor }}.latest
+            ghcr.io/remla2024-team9/model-service:${{ env.version_major }}.latest
+            ghcr.io/remla2024-team9/model-service:latest
