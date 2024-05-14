@@ -14,8 +14,8 @@ app = Flask(__name__)
 CORS(app)  
 
 # Load the model and tokenizer
-model = load_model('/app/models/best_model.keras')
-tokenizer = pickle.load(open('/app/models/tokenizer.pkl', 'rb'))
+model = load_model('models/model.keras')
+tokenizer = pickle.load(open('models/tokenizer.pkl', 'rb'))
 
 @app.route('/predict', methods=['POST'])
 def predict():
