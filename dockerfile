@@ -17,6 +17,9 @@ RUN poetry config virtualenvs.create false \
 # Copy the entire src directory into the container at /app/src
 COPY src/ /app/src
 
+# Ensure the models directory exists
+RUN mkdir -p /app/src/models
+
 # Set the working directory to /app/src for running the Python scripts
 WORKDIR /app/src
 
