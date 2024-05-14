@@ -10,47 +10,23 @@ The application also includes a `downloader.py` module, which handles the downlo
 
 ## Getting Started
 
-### Prerequisites
+## Running with Docker
 
-Before setting up the application, ensure that Poetry is installed on your system for dependency management. If you do not have Poetry installed, follow the instructions in the [Poetry documentation](https://python-poetry.org/docs/) to install it.
+To run the application in a Docker container, the image is publicly available and can be easily pulled and run with Docker without needing to manage dependencies manually.
 
-### Installation
+### Pulling the Docker Image
 
-1. **Clone the Repository**
-
-`git clone git@github.com:remla2024-team9/model-service.git`
-
-- Change working directory to this repository
-
-2. **Install Dependencies**
-Run the following commands to install the necessary dependencies:
-
-`poetry install`
-
-
-3. **Activate the Virtual Environment**
-To activate the Poetry-created virtual environment, use:
-
-`poetry shell`
-
-
-4. **Download Required Files**
-Execute the `downloader.py` to download the necessary model and tokenizer:
-
-`python src/downloader.py`
-
-
-### Running the Application
-
-After completing the setup, start the Flask application by running:
-
-`python src/app.py`
-
-The application will start running on `http://localhost:5000`. You can use tools like Postman or curl to send POST requests to `http://localhost:5000/predict` with a JSON body containing a URL for prediction.
-
-## Usage Example
-
-Here's an example of how to send a prediction request using `curl`:
+You can pull the latest version of the Docker image directly from GitHub Container Registry by using the following command:
 
 ```bash
-curl -X POST http://localhost:5000/predict -H 'Content-Type: application/json' -d '{"url": "http://example.com"}'
+`docker pull ghcr.io/remla2024-team9/model-service:latest`
+
+
+### Running the Docker Image
+
+Once you have the image, you can run it locally on your machine. If the application inside the Docker container runs on port 5000, you need to map this port to a port on your local machine. Here’s how you can run the application using Docker:
+
+`docker run -p 5000:5000 ghcr.io/remla2024-team9/model-service:latest`
+
+This command starts the container and maps port 5000 of the container to port 5000 on your host, making the application accessible through your local machine at http://localhost:5000.
+
