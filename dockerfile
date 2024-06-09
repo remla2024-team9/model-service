@@ -1,26 +1,38 @@
+FROM alpine:latest as prebuild
+
+
+RUN apk update &&\
+    apk add --update curl &&\
+    apk add --update bash &&\
+    apk add --update python3
+
+RUN curl -sSL https://sdk.cloud.google.com | bash
+ENV PATH $PATH:/root/google-cloud-sdk/bin
+
+WORKDIR /gcli
+COPY gcloud_key.json ./
+RUN gcloud auth activate-service-account --key-file=gcloud_key.json
+
+WORKDIR /models
+RUN gsutil cp gs://remla_group_9_model/models.keras model.keras
+RUN gsutil cp gs://remla_group_9_model/tokenizer.pkl tokenizer.pkl
+
 # Use an official Python runtime as a parent image
 FROM python:3.10-slim
-
-# Set the working directory to /app
-WORKDIR /app
 
 # Install Poetry
 RUN pip install poetry
 
-# Copy only the files necessary for Poetry
-COPY pyproject.toml poetry.lock* /app/
+# Set the working directory to /app
+WORKDIR /app
+
+COPY . ./
 
 # Install dependencies using Poetry
-RUN poetry config virtualenvs.create false \
-    && poetry install --no-dev --no-interaction --no-ansi
+RUN poetry install --no-dev --no-interaction --no-ansi
 
-# Copy the entire src directory into the container at /app/src
-COPY src/ /app/src
+COPY --from=prebuild /models /models
 
-# Ensure the models directory exists
-RUN mkdir -p /app/src/models
-
-# Set the working directory to /app/src for running the Python scripts
 WORKDIR /app/src
 
 # Run the downloader to set up the models and tokenizer
