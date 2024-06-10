@@ -31,12 +31,9 @@ COPY . ./
 # Install dependencies using Poetry
 RUN poetry install --no-dev --no-interaction --no-ansi
 
-COPY --from=prebuild /models /models
+COPY --from=prebuild /models models/
 
 WORKDIR /app/src
-
-# Run the downloader to set up the models and tokenizer
-RUN poetry run python downloader.py
 
 # Set the Flask application variable
 ENV FLASK_APP=app.py
