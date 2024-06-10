@@ -3,7 +3,7 @@ name: Build and Release Docker Image
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   build:
@@ -16,6 +16,10 @@ jobs:
         run: |
           echo "${{ secrets.SAMUEL_PAT2 }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
+      - name: Decode and write gcloud_key.json
+        env:
+          GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
+        run: echo "$GCLOUD_KEY" | base64 --decode > gcloud_key.json
 
       - name: Parse version info from tag
         run: |
