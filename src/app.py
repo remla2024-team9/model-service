@@ -2,9 +2,8 @@
 This module sets up a Flask application that predicts data based on a given model and tokenizer, 
 and handles the downloading of data files from remote URLs.
 """
-
-
 import pickle
+
 from flask import Flask, request, jsonify
 from keras.models import load_model
 from remla2024_team9_lib_ml import tokenize_url
@@ -13,9 +12,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  
 
+model = load_model('../models/model.keras')
+
 # Load the model and tokenizer
-model = load_model('models/model.keras')
-tokenizer = pickle.load(open('models/tokenizer.pkl', 'rb'))
+tokenizer = pickle.load(open('../models/tokenizer.pkl', 'rb'))
 
 @app.route('/predict', methods=['POST'])
 def predict():
