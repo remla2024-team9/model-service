@@ -19,7 +19,7 @@ jobs:
       - name: Decode and write gcloud_key.json
         env:
           GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
-        run: echo "$GCLOUD_KEY" | base64 --decode > gcloud_key.json
+        run: echo $GCLOUD_KEY > gcloud_key.json
 
       - name: Parse version info from tag
         run: |
