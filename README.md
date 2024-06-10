@@ -6,8 +6,6 @@ This repository contains a Flask application designed to predict data based on a
 
 The Flask application (`app.py`) serves as a prediction service. It accepts POST requests containing URLs, processes these URLs through a tokenization step, and then uses a loaded model to predict the outcome based on the tokenized data. The prediction result is then returned as a JSON response.
 
-The application also includes a `downloader.py` module, which handles the downloading of the necessary model and tokenizer files from remote URLs, ensuring that all required resources are available locally for the Flask application to function correctly.
-
 ## Getting Started
 
 ## Running with Docker
