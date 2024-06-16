@@ -8,7 +8,7 @@ from flask import Flask, request, jsonify
 from keras.models import load_model
 from remla2024_team9_lib_ml import tokenize_url
 from flask_cors import CORS
-from prometheus_client import Counter, Gauge, Summary, generate_latest
+from prometheus_client import Counter, Gauge, Summary, generate_latest, start_http_server
 
 app = Flask(__name__)
 CORS(app)
@@ -43,5 +43,6 @@ def metrics():
     return generate_latest(), 200
 
 if __name__ == "__main__":
+    start_http_server(8001)
     app.run(host='0.0.0.0', port=5000, debug=True)
 
