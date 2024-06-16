@@ -12,6 +12,7 @@ remla2024_team9_lib_ml = "0.1.1"
 tensorflow = "2.10"
 tensorflow-io-gcs-filesystem = "0.27.0"
 flask-cors = "^4.0.1"
+prometheus_client = "0.14.1"
 
 [build-system]
 requires = ["poetry-core"]
