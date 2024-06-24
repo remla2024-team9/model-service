@@ -43,6 +43,6 @@ def metrics():
     return generate_latest(), 200
 
 if __name__ == "__main__":
-    start_http_server(8003)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    start_http_server(8002)
+    app.run(host='0.0.0.0', port=5000, debug=False)
 
