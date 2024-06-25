@@ -15,6 +15,7 @@ RUN gcloud auth activate-service-account --key-file=gcloud_key.json
 
 WORKDIR /models
 RUN gsutil cp gs://remla_group_9_model/models.keras model.keras
+RUN gsutil cp gs://remla_group_9_model/best_model.keras best_model.keras
 RUN gsutil cp gs://remla_group_9_model/tokenizer.pkl tokenizer.pkl
 
 # Use an official Python runtime as a parent image

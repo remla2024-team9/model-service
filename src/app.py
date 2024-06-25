@@ -2,6 +2,7 @@
 This module sets up a Flask application that predicts data based on a given model and tokenizer, 
 and handles the downloading of data files from remote URLs.
 """
+import os
 import time
 import pickle
 from flask import Flask, request, jsonify
@@ -18,7 +19,15 @@ PREDICTION_COUNT = Counter('model_service_prediction_count', 'Total number of pr
 IN_PROGRESS_PREDICTIONS = Gauge('model_service_in_progress_predictions', 'Number of in-progress predictions')
 PREDICTION_LATENCY = Summary('model_service_prediction_latency_seconds', 'Prediction latency in seconds')
 
-model = load_model('../models/model.keras')
+MODEL_CHANGE_COUNT = Counter("model_service_model_type_change_count", "Number of times the model was changed")
+
+#model_type=1 => normal model, model_type=2 => best_model
+model_type = os.environ.get("MODEL_TYPE", "1")
+
+model1 = load_model('../models/model.keras')
+model2 = load_model("../models/best_model.keras")
+
+model = model1 if (model_type == "1") else model2
 
 # Load the model and tokenizer
 tokenizer = pickle.load(open('../models/tokenizer.pkl', 'rb'))
@@ -38,10 +47,30 @@ def predict():
         response = {"error": "URL not provided"}
     return jsonify(response)
 
+
+@app.route("/change", methods=['POST'])
+def change():
+    global model, model_type
+
+    if (model_type == "1"):
+        model = model2
+        model_type = "2"
+    
+    elif (model_type == "2"):
+        model = model1
+        model_type = "1"
+
+    else:
+        return jsonify({"error": "Invalid Internal State"}), 500
+
+    MODEL_CHANGE_COUNT.inc()
+
+    return jsonify({"current": model_type}), 200
+
 @app.route('/metrics')
 def metrics():
     return generate_latest(), 200
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
 
