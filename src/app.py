@@ -19,8 +19,6 @@ PREDICTION_COUNT = Counter('model_service_prediction_count', 'Total number of pr
 IN_PROGRESS_PREDICTIONS = Gauge('model_service_in_progress_predictions', 'Number of in-progress predictions')
 PREDICTION_LATENCY = Summary('model_service_prediction_latency_seconds', 'Prediction latency in seconds')
 
-MODEL_CHANGE_COUNT = Counter("model_service_model_type_change_count", "Number of times the model was changed")
-
 model = load_model('../models/model.keras')
 
 # Load the model and tokenizer
