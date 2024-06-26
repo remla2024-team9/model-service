@@ -2,6 +2,7 @@
 This module sets up a Flask application that predicts data based on a given model and tokenizer, 
 and handles the downloading of data files from remote URLs.
 """
+import os
 import time
 import pickle
 from flask import Flask, request, jsonify
@@ -43,5 +44,5 @@ def metrics():
     return generate_latest(), 200
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
 
