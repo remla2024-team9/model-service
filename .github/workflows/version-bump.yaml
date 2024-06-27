@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.SAMUEL_PAT2 }}
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -43,8 +45,6 @@ jobs:
           fi
 
       - name: Commit version bump
-        env:
-          GITHUB_TOKEN: ${{ secrets.SAMUEL_PAT2 }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
