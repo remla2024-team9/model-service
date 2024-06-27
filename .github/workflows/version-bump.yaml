@@ -43,6 +43,8 @@ jobs:
           fi
 
       - name: Commit version bump
+        env:
+          GITHUB_TOKEN: ${{ secrets.SAMUEL_PAT2 }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
