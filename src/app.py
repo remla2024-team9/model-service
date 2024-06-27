@@ -1,5 +1,5 @@
 """
-This module sets up a Flask application that predicts data based on a given model and tokenizer, 
+This module sets up a Flask application that predicts data based on a given model and tokenizer,
 and handles the downloading of data files from remote URLs.
 """
 import os
@@ -22,10 +22,15 @@ PREDICTION_LATENCY = Summary('model_service_prediction_latency_seconds', 'Predic
 model = load_model('../models/model.keras')
 
 # Load the model and tokenizer
-tokenizer = pickle.load(open('../models/tokenizer.pkl', 'rb'))
+with open('../models/tokenizer.pkl', 'rb') as tokenizer_file:
+    tokenizer = pickle.load(tokenizer_file)
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    """
+    Predict endpoint for the Flask application.
+    Expects a JSON payload with a URL to be tokenized and predicted by the model.
+    """
     data = request.get_json()
     if 'url' in data:
         with IN_PROGRESS_PREDICTIONS.track_inprogress():
@@ -41,8 +46,11 @@ def predict():
 
 @app.route('/metrics')
 def metrics():
+    """
+    Metrics endpoint for Prometheus scraping.
+    Returns the latest metrics in Prometheus format.
+    """
     return generate_latest(), 200
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=False)
-
